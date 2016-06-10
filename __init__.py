@@ -152,6 +152,8 @@ class MinimalClient(object):
             if isinstance(data, Exception):
                 raise data
 
+            return data
+
         return func_request
 
 
