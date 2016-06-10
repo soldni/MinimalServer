@@ -26,3 +26,11 @@ client.foo(...)        # Call any public method of SlowInitObject
 ```
 
 Easy, right?
+
+## Throughput 
+
+In my tests, it seems that the communication via sockets takes around 1 ms on localhost. So if the object you're trying to interface is substantially faster than that, it will impact its throughput significately. 
+
+## A note about Python 2 / 3 interoperability
+
+This module is a great way to use Python 2 modules in a Python 3 codebase. Just make sure to set `pickle_protocol=2` in both the client and the server. 
