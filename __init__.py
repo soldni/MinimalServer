@@ -4,6 +4,7 @@ import inspect
 import sys
 import math
 import time
+import six
 
 try:
     import SocketServer as socketserver
@@ -99,12 +100,15 @@ class MinimalClient(object):
                 Python versions.
         """
 
+        if pickle_protocol is None:
+            pickle_protocol =  pickle.HIGHEST_PROTOCOL
+
         self.host = host
         self.port = port
         self.buffersize = buffersize
         self.pickle_protocol = pickle_protocol
 
-        if int(sys.version[0]) < 3:
+        if six.PY2:
             predicate = inspect.ismethod
         else:
             predicate = inspect.isfunction
@@ -174,6 +178,9 @@ def run_server(served_object, host='localhost',
             Python versions.
     """
 
+    if pickle_protocol is None:
+        pickle_protocol =  pickle.HIGHEST_PROTOCOL
+
     # allows port reuse
     MinimalServer.allow_reuse_address = True
 
@@ -182,7 +189,6 @@ def run_server(served_object, host='localhost',
     server.served_object = served_object
     server.buffersize = buffersize
     server.pickle_protocol = pickle_protocol
-
 
     # Start a thread with the server -- that thread will then start one
     # more thread for each request
