@@ -1,10 +1,9 @@
-import socket
-import threading
-import inspect
-import sys
-import math
-import time
 import six
+import time
+import math
+import socket
+import inspect
+import threading
 
 try:
     import SocketServer as socketserver
@@ -101,7 +100,7 @@ class MinimalClient(object):
         """
 
         if pickle_protocol is None:
-            pickle_protocol =  pickle.HIGHEST_PROTOCOL
+            pickle_protocol = pickle.HIGHEST_PROTOCOL
 
         self.host = host
         self.port = port
