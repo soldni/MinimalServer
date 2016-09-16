@@ -1,8 +1,10 @@
 import six
+import sys
 import time
 import math
 import socket
 import inspect
+import datetime
 import threading
 
 try:
@@ -178,7 +180,7 @@ def run_server(served_object, host='localhost',
     """
 
     if pickle_protocol is None:
-        pickle_protocol =  pickle.HIGHEST_PROTOCOL
+        pickle_protocol = pickle.HIGHEST_PROTOCOL
 
     # allows port reuse
     MinimalServer.allow_reuse_address = True
@@ -195,15 +197,24 @@ def run_server(served_object, host='localhost',
     # Exit the server thread when the main thread terminates
     server_thread.daemon = True
     server_thread.start()
-    print('Server running at {}:{} (press ^C to interrupt)...'
-          ''.format(host, port, server_thread.name))
+    print(
+        '[{}] server running at {}:{} (press ^C to interrupt)'.format(
+            datetime.datetime.now().isoformat(), host, port, server_thread.name
+        ),
+        file=sys.stderr
+    )
 
     # Wait for termination
     try:
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
-        print('\nbye.')
+        print(
+            '\n[{}] server stopped'.format(
+                datetime.datetime.now().isoformat()
+            ),
+            file=sys.stderr
+        )
 
     # Terminate the server
     server.shutdown()
