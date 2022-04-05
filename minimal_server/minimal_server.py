@@ -4,7 +4,7 @@ import time
 import math
 import socket
 import inspect
-import datetime
+from datetime import datetime
 import threading
 
 try:
@@ -84,8 +84,12 @@ class MinimalServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
 class MinimalClient(object):
     """Minimal client to provide communication with the server"""
 
-    def __init__(self, target_class, host='localhost', port=4444,
-                 buffersize=2048, pickle_protocol=None):
+    def __init__(self,
+                 target_class,
+                 host='localhost',
+                 port=4444,
+                 buffersize=2048,
+                 pickle_protocol=None):
         """Initialize the client
 
         Args:
@@ -162,8 +166,11 @@ class MinimalClient(object):
         return func_request
 
 
-def run_server(served_object, host='localhost',
-               port=4444, buffersize=2048, pickle_protocol=None):
+def minimal_server(served_object,
+                   host='localhost',
+                   port=4444,
+                   buffersize=2048,
+                   pickle_protocol=None):
     """Runs the server
 
     Args:
@@ -199,7 +206,7 @@ def run_server(served_object, host='localhost',
     server_thread.start()
     print(
         '[{}] server running at {}:{} (press ^C to interrupt)'.format(
-            datetime.datetime.now().isoformat(), host, port, server_thread.name
+            datetime.now().isoformat(), host, port, server_thread.name
         ),
         file=sys.stderr
     )
@@ -209,14 +216,10 @@ def run_server(served_object, host='localhost',
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
-        print(
-            '\n[{}] server stopped'.format(
-                datetime.datetime.now().isoformat()
-            ),
-            file=sys.stderr
-        )
+        print('\n[{}] server stopped'.format(datetime.now().isoformat()),
+              file=sys.stderr)
+    finally:
 
-    # Terminate the server
-    server.shutdown()
-    server.server_close()
-
+        # Terminate the server
+        server.shutdown()
+        server.server_close()
