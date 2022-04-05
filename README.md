@@ -1,3 +1,11 @@
+[Now available on pip!](https://pypi.org/project/Minimal-Server/1.0/)
+Just run
+
+```bash
+pip install Minimal-Server
+
+```
+
 # Minimal Server
 
 This library serves a very simple purpose: have a simple client/server pair to "serve" a Python (2 & 3) object.
@@ -9,28 +17,29 @@ Server script:
 
 ```python
 
-from MinimalServer import run_server
+from minimal_server import minimal_server
 
 obj = SlowInitObject(...)   # An instance of the object
-run_server(obj, host='localhost', port=4444)
+minimal_server(obj, host='localhost', port=4444)
 ```
 
 Client script:
 
 ```python
-from MinimalServer import MinimalClient
+from minimal_server import MinimalClient
 client = MinimalClient(SlowInitObject,      # Pass the class, not the instance!
-    host='localhost', port=4444)
+                       host='localhost',
+                       port=4444)
 
 client.foo(...)        # Call any public method of SlowInitObject
 ```
 
 Easy, right?
 
-## Throughput 
+## Throughput
 
-In my tests, it seems that the communication via sockets takes around 1 ms on localhost. So if the object you're trying to interface is substantially faster than that, it will impact its throughput significately. 
+In my tests, it seems that the communication via sockets takes around 1 ms on localhost. So if the object you're trying to interface is substantially faster than that, it will impact its throughput significantly.
 
 ## A note about Python 2 / 3 interoperability
 
-This module is a great way to use Python 2 modules in a Python 3 codebase. Just make sure to set `pickle_protocol=2` in both the client and the server. 
+This module is a great way to use Python 2 modules in a Python 3 codebase. Just make sure to set `pickle_protocol=2` in both the client and the server.

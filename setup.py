@@ -9,7 +9,7 @@ def readme():
 
 setup(
     name='Minimal Server',
-    version='1.0',
+    version='1.0.1',
     packages=['minimal_server'],
     description=('Serve a python object through a simple socket; '
                  'supports multiple connections.'),
